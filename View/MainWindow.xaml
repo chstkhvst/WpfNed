@@ -1,0 +1,119 @@
+﻿<Window x:Class="WpfNed.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfNed"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="#CDE6D0"
+        MouseDown="Window_MouseDown"
+        WindowStyle="None">
+    <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource FF}" FontSize="30" Text="R&#xf7ae;E"
+                       Foreground="White" Background="DarkSeaGreen"
+                       TextAlignment="Center" Padding="35 0 0 0" Margin="0 0 5 0"/>
+
+            <Button x:Name="btnMinimize" 
+                    Background="#FF91D191" 
+                    Opacity="0.4"  
+                    Grid.Column="1"
+                    Foreground="White"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Click="btnMinimize_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="24" Text="&#xf068;" />
+            </Button>
+            <Button x:Name="btnMaximize" 
+                    Background="#FF91D191" 
+                    Opacity="0.4"  
+                    Grid.Column="3"
+                    Foreground="White"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Click="btnMaximize_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="20" Text="&#xf065;" />
+            </Button>
+            <Button x:Name="btnClose" 
+                    Background="#FF91D191" 
+                    Opacity="0.4"  
+                    Grid.Column="5"
+                    Foreground="Honeydew"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Click="btnClose_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="30" Text="&#xf00d;" />
+            </Button>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="10" Background="DarkSeaGreen" Opacity="0.8" >
+                <TextBlock Text="Тип объекта" FontFamily="Trebuchet MS"/>
+                <ComboBox x:Name="cbPropertyType" Height="18"/>
+
+                <TextBlock Text="Количество комнат" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <ComboBox x:Name="cbRoomCount" Height="18"/>
+
+                <TextBlock Text="Вид сделки" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <ComboBox x:Name="cbTransactionType" Height="18"/>
+
+                <TextBlock Text="Дата заезда" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <DatePicker x:Name="dpCheckInDate" Height="25"/>
+
+                <TextBlock Text="Дата выезда" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <DatePicker x:Name="dpCheckOutDate" Height="25"/>
+
+                <TextBlock Text="Минимальная цена" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <TextBox x:Name="cbPriceMin" Height="18"/>
+
+                <TextBlock Text="Максимальная цена" Margin="0,10,0,0" FontFamily="Trebuchet MS"/>
+                <TextBox x:Name="cbPriceMax" Height="18"/>
+
+                <Button Content="Применить" Width="80" Height="25" FontFamily="Trebuchet MS" Margin="0,20,0,0" HorizontalAlignment="Center" BorderThickness="0" Background="Honeydew"
+                        Click="Button_Click"/>
+
+            </StackPanel>
+            
+            <ScrollViewer Grid.Column="1" Margin="10">
+                <StackPanel Name="spListings">
+                    <ListBox Name="listBoxListings" Background="Transparent" BorderThickness="0">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="DarkSeaGreen"/>
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="Height" Value="150"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBoxItem Content="Объявление 1"/>
+                        <ListBoxItem Content="Объявление 2"/>
+                        <ListBoxItem Content="Объявление 3"/>
+                        <ListBoxItem Content="Объявление 4"/>
+                        <ListBoxItem Content="Объявление 5"/>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>-->
+    </Grid>
+</Window>

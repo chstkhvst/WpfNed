@@ -1,0 +1,11 @@
+﻿<Application x:Class="WpfNed.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfNed"
+             StartupUri="View/Login.xaml">
+    <Application.Resources>
+        <Style x:Key="FF" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="C:\Users\hello\Desktop\uchyoba\WpfNed\Fonts\#Font Awesome 6 Free Solid" />
+        </Style>    
+    </Application.Resources>
+</Application>

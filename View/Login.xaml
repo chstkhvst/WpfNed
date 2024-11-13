@@ -1,0 +1,232 @@
+﻿<Window x:Class="WpfNed.View.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfNed.View"
+        mc:Ignorable="d"
+        Title="Login" Height="550" Width="800"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
+        Background="#CDE6D0"
+        Opacity="1"
+        WindowStyle="None"
+>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnMinimize" 
+            Background="#FF91D191" 
+            Opacity="0.4"  
+            Grid.Column="1"
+            Foreground="White"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Click="btnMinimize_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="24" Text="&#xf068;" />
+            </Button>
+            <Button x:Name="btnMaximize" 
+            Background="#FF91D191" 
+            Opacity="0.4"  
+            Grid.Column="3"
+            Foreground="White"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Click="btnMaximize_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="20" Text="&#xf065;" />
+            </Button>
+            <Button x:Name="btnClose" 
+            Background="#FF91D191" 
+            Opacity="0.4"  
+            Grid.Column="5"
+            Foreground="White"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Click="btnClose_Click">
+                <TextBlock Style="{StaticResource FF}" FontSize="30" Text="&#xf00d;" />
+            </Button>
+        </Grid>
+        <StackPanel Width="250"
+                    Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="0, 35, 0, 0">
+
+            <TextBlock Style="{StaticResource FF}" FontSize="70" Text="R&#xf7ae;E"
+               Foreground="DarkSeaGreen"
+               TextAlignment="Center"/>
+            <TextBlock FontFamily="Trebuchet MS" FontSize="28" Text="Вход в систему" TextAlignment="Center" Margin="10, 0, 0, 0"/>
+
+            <Grid Margin="0, 50, 20, 0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" FontFamily="Trebuchet MS" Text="Логин" VerticalAlignment="Center" Margin="5, 0, 5, 0"/>
+                <Border Grid.Column="1" Grid.Row="0" CornerRadius="15" BorderThickness="1" Background="DarkSeaGreen" Opacity="0.3">
+                    <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" x:Name="txtUser" FontSize="16" FontFamily="Trebuchet MS" Margin="10, 5, 10, 5" Background="DarkSeaGreen" BorderThickness="0"/>
+                </Border>
+
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Пароль" FontFamily="Trebuchet MS" VerticalAlignment="Center" Margin="5, 10, 5, 0"/>
+                <Border Grid.Column="1" Grid.Row="2" CornerRadius="15" BorderThickness="1" Background="DarkSeaGreen" Opacity="0.3">
+                    <PasswordBox x:Name="txtPassword" 
+                                 FontSize="16" FontFamily="Trebuchet MS" Margin="10, 5, 10, 5" Background="DarkSeaGreen" BorderThickness="0"
+                                 PasswordChanged="PasswordBox_PasswordChanged" />
+                </Border>
+                <TextBlock x:Name="tbFullname" Grid.Column="0" Grid.Row="4" Text="ФИО" FontFamily="Trebuchet MS" VerticalAlignment="Center" Margin="5, 10, 5, 0" Visibility="Collapsed"/>
+                <Border x:Name="txtFullname" Grid.Column="1" Grid.Row="4" CornerRadius="15" BorderThickness="1" Background="DarkSeaGreen" Opacity="0.3" Visibility="Collapsed">
+                    <TextBox FontSize="16" FontFamily="Trebuchet MS" Margin="10, 5, 10, 5" Background="DarkSeaGreen" BorderThickness="0"/>
+                </Border>
+
+                <Button x:Name="btnLogin" 
+                        Grid.Column="1"
+                        Grid.Row="4"
+                        Background="DarkSeaGreen"
+                        Command="{Binding LoginCommand}"
+                        Content="Войти"
+                        Cursor="Hand"
+                        FontSize="14"
+                        FontFamily="Trebuchet MS"
+                        Foreground="White">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="110"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="15"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+
+                <Button x:Name="btnSignUp" 
+                        Grid.Column="1"
+                        Grid.Row="6"
+                        Background="DarkSeaGreen"
+                        Click="btnSignUp_Click"
+                        Content="Создать аккаунт"
+                        Cursor="Hand"
+                        FontSize="12"
+                        FontFamily="Trebuchet MS"
+                        Foreground="White"
+                        Margin="0 15 0 0"
+                        Visibility="Collapsed">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Width" Value="110"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="15"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="btnRegister" 
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        FontSize="12"
+                        FontFamily="Trebuchet MS"
+                        BorderThickness="0"
+                        Width="120"
+                        Height="30"
+                        Click="btnRegister_Click">      
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent" BorderThickness="0">
+                                <TextBlock x:Name="textBlock" 
+                                           Text="Зарегистрироваться" 
+                                           Foreground="DarkSeaGreen" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="textBlock" Property="Foreground" Value="green"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="btnAlreadyHave" 
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        FontSize="12"
+                        FontFamily="Trebuchet MS"
+                        BorderThickness="0"
+                        Width="150"
+                        Height="30"
+                        Click="btnAlreadyHave_Click"
+                        Visibility="Collapsed">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="Transparent" BorderThickness="0">
+                                <TextBlock x:Name="textBlock" 
+                           Text="Уже есть аккаунт? Войти" 
+                           Foreground="DarkSeaGreen" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="textBlock" Property="Foreground" Value="green"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+            </Grid>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
