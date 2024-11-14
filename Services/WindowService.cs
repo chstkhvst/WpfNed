@@ -38,23 +38,27 @@ namespace WpfNed.Services
             //window.DataContext = viewModel;
             window.Show();
         }
-        public void OpenWindow(string windowType)
+        public void OpenWindow(string windowType, object vM, int mode)
         {
             Window window;
 
             switch (windowType)
             {
-                case "AddObj":
-                    window = new AddObjWindow();
-                    break;
-                case "Employee":
-                    window = new EmployeeWindow();
+                case "AddUser":
+                    if (mode == 1)
+                    {
+                        window = new AddUserWindow(1, vM);
+                    }
+                    else
+                    {
+                        window = new AddUserWindow(2, vM);
+                    }
                     break;
                 default:
                     throw new ArgumentException("Unknown window type");
             }
 
-            window.Show();
+            window.ShowDialog();
         }
         public void CloseWindow(Window window)
         {

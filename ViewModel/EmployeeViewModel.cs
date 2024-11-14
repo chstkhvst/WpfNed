@@ -169,19 +169,19 @@ namespace WpfNed.ViewModel
                 return _reservations;
             }
         }
-        private List<User> _users;
-        public List<User> Users
-        {
-            get
-            {
-                if (_users == null)
-                {
-                    _users = tb.GetUsers();
-                    OnPropertyChanged(nameof(Users));
-                }
-                return _users;
-            }
-        }
+        //private List<User> _users;
+        //public List<User> Users
+        //{
+        //    get
+        //    {
+        //        if (_users == null)
+        //        {
+        //            _users = tb.GetUsers();
+        //            OnPropertyChanged(nameof(Users));
+        //        }
+        //        return _users;
+        //    }
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -275,19 +275,31 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Пользователи" Style="{StaticResource CustomTabItemStyle}">
-                    <DataGrid ItemsSource ="{Binding Users}"
+                <TabItem Header="Пользователи" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding UserVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource ="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=OneWayToSource}"
                         AutoGenerateColumns="False" Style="{StaticResource CustomDataGridStyle}"
                         ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
                         CellStyle="{StaticResource DataGridCellStyle}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Роль" Binding="{Binding UserRole.RoleName}"/>
-                            <DataGridTextColumn Header="Логин" Binding="{Binding Login}"/>
-                            <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
-                            <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Passport}"/>
-                            <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Роль" Binding="{Binding DisplayRole}"/>
+                                <DataGridTextColumn Header="Логин" Binding="{Binding Login}"/>
+                                <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
+                                <DataGridTextColumn Header="Номер паспорта" Binding="{Binding Passport}"/>
+                                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Phone}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                            <Button Style="{StaticResource StyledButton}" Content="Добавить" Command="{Binding AddObjCommand}" Margin="5"/>
+                            <Button Style="{StaticResource StyledButton}" Content="Редактировать" Command="{Binding EditObjCommand}" Margin="5"/>
+                            <Button Style="{StaticResource StyledButton}" Content="Удалить" Command="{Binding DeleteObjCommand}" Margin="5"/>
+                            <Button Style="{StaticResource StyledButton}" Content="Обновить" Command="{Binding RefreshObjCommand}" Margin="5"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Справочники" Style="{StaticResource CustomTabItemStyle}">
                     <StackPanel Grid.Row="1">

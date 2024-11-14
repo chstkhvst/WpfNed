@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\AddressConverter.cs" />
     <Compile Include="DTO\REObjectDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="EF\Contract.cs" />
     <Compile Include="EF\DealType.cs" />
     <Compile Include="EF\Model1.cs" />
@@ -86,18 +87,24 @@
     <Compile Include="Model\REObjModel.cs" />
     <Compile Include="Model\ReservationModel.cs" />
     <Compile Include="Model\TableModel.cs" />
+    <Compile Include="Model\UserModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ViewModel\AddObjVM.cs" />
+    <Compile Include="ViewModel\ContractVM.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MWViewModel.cs" />
     <Compile Include="ViewModel\ObjectTableVM.cs" />
     <Compile Include="ViewModel\ResVM.cs" />
     <Compile Include="ViewModel\SharedVM.cs" />
+    <Compile Include="ViewModel\UserVM.cs" />
     <Compile Include="View\AddObjWindow.xaml.cs">
       <DependentUpon>AddObjWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddUserWindow.xaml.cs">
+      <DependentUpon>AddUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditObjectWindow.xaml.cs">
       <DependentUpon>EditObjectWindow.xaml</DependentUpon>
@@ -112,6 +119,10 @@
       <DependentUpon>MWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="View\AddObjWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

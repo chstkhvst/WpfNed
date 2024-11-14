@@ -10,7 +10,7 @@ namespace WpfNed.Services
     public interface IWindowService
     {
         void ShowWindow(string windowType, object viewModel = null);
-        void OpenWindow(string windowType);
+        void OpenWindow(string windowType, object viewModel, int mode);
         void CloseWindow(Window window);
     }
 }

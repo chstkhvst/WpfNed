@@ -15,11 +15,14 @@ namespace WpfNed.ViewModel
     public class SharedVM
     {
         public ObjectTableVM ObjectTableVM { get; set; }
+        public UserVM UserVM { get; set; }
+
         //TableModel tb = new TableModel();
 
         public SharedVM()
         {
             ObjectTableVM = new ObjectTableVM();
+            UserVM = new UserVM();
         }
 
 

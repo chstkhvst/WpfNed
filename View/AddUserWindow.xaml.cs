@@ -11,26 +11,34 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfNed.ViewModel;
 
 namespace WpfNed.View
 {
     /// <summary>
-    /// Логика взаимодействия для EmployeeWindow.xaml
+    /// Логика взаимодействия для AddUserWindow.xaml
     /// </summary>
-    public partial class EmployeeWindow : Window
+    public partial class AddUserWindow : Window
     {
-        public EmployeeWindow()
+        public AddUserWindow(int mode, object vM)
         {
             InitializeComponent();
-
+            if (mode == 1)
+            {
+                this.DataContext = vM;
+                btn.Content = "Добавить";
+                btn.SetBinding(Button.CommandProperty, new Binding("AddObjInDBCommand"));
+            }
+            else {
+                this.DataContext = vM;
+                btn.Content = "Редактировать";
+                btn.SetBinding(Button.CommandProperty, new Binding("UpdObjInDBCommand"));
+            }
         }
         private void Window_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
-
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
@@ -43,34 +51,10 @@ namespace WpfNed.View
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            //EmployeeWindow em = new EmployeeWindow();
+            //em.Show();
+            this.Close();
         }
 
-        private void ButtonRes_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonUsers_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonContr_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ButtonSprav_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        //private void ButtonAddObj_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Window window = new AddObjWindow();
-        //    window.Show();
-        //    //this.Close();
-        //}
     }
 }

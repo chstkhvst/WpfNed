@@ -143,6 +143,26 @@ namespace WpfNed.ViewModel
             {
                 _selectedObject = value;
                 OnPropertyChanged(nameof(SelectedObject));
+                if (_selectedObject != null)
+                {
+                    _selectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == _selectedObject.OwnerId);
+                    OnPropertyChanged(nameof(SelectedObject.Owner)); // Уведомляем об изменении владельца
+                }
+            }
+        }
+        private REObjectDTO _SselectedObject;
+        public REObjectDTO SSelectedObject
+        {
+            get => _SselectedObject;
+            set
+            {
+                _SselectedObject = value;
+                OnPropertyChanged(nameof(SSelectedObject));
+                //if (_SselectedObject != null)
+                //{
+                //    _selectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == _selectedObject.OwnerId);
+                //    OnPropertyChanged(nameof(SelectedObject.Owner)); // Уведомляем об изменении владельца
+                //}
             }
         }
         public void OpenAddObj()
@@ -159,12 +179,19 @@ namespace WpfNed.ViewModel
         public void RefreshObjects()
         {
             Objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
-            OnPropertyChanged(nameof(Objects));
+            //OnPropertyChanged(nameof(Objects));
             //Objects.Clear();
             //foreach (var obj in objects)
             //{
             //    Objects.Add(obj);
             //}
+            //var updatedObjects = tb.GetObjects();
+            //Objects.Clear(); 
+            //foreach (var obj in updatedObjects)
+            //{
+            //    Objects.Add(obj); 
+            //}
+            //OnPropertyChanged(nameof(Objects));
         }
         private void DeleteSelectedObject()
         {
@@ -212,6 +239,11 @@ namespace WpfNed.ViewModel
             };
             tbObj.UpdObj(newObject);
             RefreshObjects();
+            SelectedObject = Objects.FirstOrDefault(o => o.Id == newObject.Id);
+            if (SelectedObject != null)
+            {
+                SelectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == SelectedObject.OwnerId);
+            }
         }
         #endregion
 
