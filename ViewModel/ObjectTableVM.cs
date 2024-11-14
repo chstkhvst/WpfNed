@@ -114,14 +114,14 @@ namespace WpfNed.ViewModel
         // КРАД ДЛЯ ОБЪЕКТА
         #region CRUD FOR OBJECTS
 
-        private ObservableCollection<RealEstateObject> _objects;
-        public ObservableCollection<RealEstateObject> Objects
+        private List<REObjectDTO> _objects;
+        public List<REObjectDTO> Objects
         {
             get
             {
                 if (_objects == null)
                 {
-                    _objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
+                    _objects = tb.GetObjectsDTO();
                     OnPropertyChanged(nameof(Objects));
                 }
                 return _objects;
@@ -135,63 +135,35 @@ namespace WpfNed.ViewModel
                 }
             }
         }
-        private RealEstateObject _selectedObject;
-        public RealEstateObject SelectedObject
+        private REObjectDTO _selectedObject;
+        public REObjectDTO SelectedObject
         {
             get => _selectedObject;
             set
             {
                 _selectedObject = value;
                 OnPropertyChanged(nameof(SelectedObject));
-                if (_selectedObject != null)
-                {
-                    _selectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == _selectedObject.OwnerId);
-                    OnPropertyChanged(nameof(SelectedObject.Owner)); // Уведомляем об изменении владельца
-                }
-            }
-        }
-        private REObjectDTO _SselectedObject;
-        public REObjectDTO SSelectedObject
-        {
-            get => _SselectedObject;
-            set
-            {
-                _SselectedObject = value;
-                OnPropertyChanged(nameof(SSelectedObject));
-                //if (_SselectedObject != null)
-                //{
-                //    _selectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == _selectedObject.OwnerId);
-                //    OnPropertyChanged(nameof(SelectedObject.Owner)); // Уведомляем об изменении владельца
-                //}
             }
         }
         public void OpenAddObj()
         {
+            SelectedObject = new REObjectDTO();
             _windowService.ShowWindow("AddObj", this);
         }
         public void OpenEditObj()
         {
             if (SelectedObject != null)
             {
+                SelectedObject = new REObjectDTO(SelectedObject);
                 _windowService.ShowWindow("EditObj", this);
             }
         }
         public void RefreshObjects()
         {
-            Objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
-            //OnPropertyChanged(nameof(Objects));
-            //Objects.Clear();
-            //foreach (var obj in objects)
-            //{
-            //    Objects.Add(obj);
-            //}
-            //var updatedObjects = tb.GetObjects();
-            //Objects.Clear(); 
-            //foreach (var obj in updatedObjects)
-            //{
-            //    Objects.Add(obj); 
-            //}
-            //OnPropertyChanged(nameof(Objects));
+            Objects.Clear();
+            Objects = tb.GetObjectsDTO();
+            OnPropertyChanged("Objects");
+            //Objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
         }
         private void DeleteSelectedObject()
         {
@@ -199,51 +171,19 @@ namespace WpfNed.ViewModel
             {
                 tbObj.DeleteObject(SelectedObject);
                 Objects.Remove(SelectedObject);
+                RefreshObjects();
             }
         }
         public void AddObject()
         {
-            var newObject = new REObjectDTO
-            {
-                Rooms = this.Rooms,
-                Floors = this.Floors,
-                Square = (int)this.Square,
-                TypeId = (int)this.TypeId,
-                DealTypeId = (int)this.DealTypeId,
-                Street = this.Street,
-                Building = (int)this.Building,
-                Number = this.Number == 0 ? (int?)null : this.Number,
-                Price = (int)this.Price,
-                OwnerId = (int)this.OwnerId,
-                StatusId = 1
-            };
-            tbObj.AddObj(newObject);
+
+            tbObj.AddObj(SelectedObject);
             RefreshObjects();
         }
         public void UpdateObject()
         {
-            var newObject = new REObjectDTO
-            {
-                Id = SelectedObject.Id,
-                Rooms = SelectedObject.Rooms,
-                Floors = SelectedObject.Floors,
-                Square = SelectedObject.Square,
-                TypeId = SelectedObject.TypeId,
-                DealTypeId = SelectedObject.DealTypeId,
-                Street = SelectedObject.Street,
-                Building = SelectedObject.Building,
-                Number = SelectedObject.Number,
-                Price = SelectedObject.Price,
-                OwnerId = SelectedObject.OwnerId,
-                StatusId = SelectedObject.StatusId
-            };
-            tbObj.UpdObj(newObject);
+            tbObj.UpdObj(SelectedObject);
             RefreshObjects();
-            SelectedObject = Objects.FirstOrDefault(o => o.Id == newObject.Id);
-            if (SelectedObject != null)
-            {
-                SelectedObject.Owner = tb.GetOwners().FirstOrDefault(o => o.Id == SelectedObject.OwnerId);
-            }
         }
         #endregion
 

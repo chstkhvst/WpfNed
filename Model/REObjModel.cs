@@ -28,14 +28,14 @@ namespace WpfNed.Model
                 Number = o.Number,
                 Price = o.Price,
                 OwnerId = o.OwnerId,
-                StatusId = o.StatusId
+                StatusId = 1
             };
             db.Object.Add(newObject);
             db.SaveChanges();
         }
-        public void DeleteObject(RealEstateObject obj)
+        public void DeleteObject(REObjectDTO obj)
         {
-            var existingObject = db.Object.FirstOrDefault(o => o.Id == obj.Id);
+            var existingObject = db.Object.Find(obj.Id);
             db.Object.Remove(existingObject);
             db.SaveChanges();
         }
@@ -58,8 +58,8 @@ namespace WpfNed.Model
                 existingObject.StatusId = updatedObject.StatusId;
 
                 db.SaveChanges();
-                db.Owner.Load();
-                db.Object.Load();
+                //db.Owner.Load();
+                //db.Object.Load();
             }
         }
     }

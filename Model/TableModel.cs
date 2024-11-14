@@ -20,14 +20,6 @@ namespace WpfNed.Model
         //    db.Set<RealEstateObject>().Load();
         //    return db.Set<RealEstateObject>().ToList();
         //}
-        public List<RealEstateObject> GetObjects()
-        {
-            return db.Object.Include(o => o.Owner) // Загружаем владельцев
-                            .Include(o => o.ObjectType)
-                            .Include(o => o.DealType)
-                            .Include(o => o.Status)
-                            .ToList();
-        }
         public List<RealEstateTypeObject> GetObjectTypes()
         {
             db.Set<RealEstateTypeObject>().Load();
@@ -65,6 +57,14 @@ namespace WpfNed.Model
         //    return db.User.Include(u => u.UserRole).ToList();
         //    //return db.User.AsNoTracking().Include(u => u.UserRole).ToList();
         //}
+        public List<RealEstateObject> GetObjects()
+        {
+            return db.Object.Include(o => o.Owner) // Загружаем владельцев
+                            .Include(o => o.ObjectType)
+                            .Include(o => o.DealType)
+                            .Include(o => o.Status)
+                            .ToList();
+        }
         public List<UserDTO> GetUsersDTO()
         {
             using (var db = new Model1())
@@ -74,6 +74,22 @@ namespace WpfNed.Model
                 for (int i = 0; i < r.Count; i++)
                 {
                     r[i].DisplayRole = db.UserRole.Find(r[i].RoleId).RoleName;
+                }
+                return r;
+            }
+        }
+        public List<REObjectDTO> GetObjectsDTO()
+        {
+            using (var db = new Model1())
+            {
+                db.Object.Load();
+                List<REObjectDTO> r = db.Object.ToList().Select(i => new REObjectDTO(i)).ToList();
+                for (int i = 0; i < r.Count; i++)
+                {
+                    r[i].DealTypeDisplay = db.DealType.Find(r[i].TypeId).DealName;
+                    r[i].StatusDisplay = db.Status.Find(r[i].StatusId).StatusName;
+                    r[i].OwnerDisplay = db.Owner.Find(r[i].OwnerId).FullName;
+                    r[i].TypeDisplay = db.ObjectType.Find(r[i].TypeId).TypeName;
                 }
                 return r;
             }

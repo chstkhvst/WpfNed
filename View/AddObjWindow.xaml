@@ -67,7 +67,7 @@
             <TextBlock Text="Добавление нового объекта" FontSize="16" FontWeight="Bold"/>
 
             <TextBlock Text="Количество комнат:"/>
-            <ComboBox SelectedValue="{Binding Rooms}" SelectedValuePath="Content"
+            <ComboBox SelectedValue="{Binding SelectedObject.Rooms}" SelectedValuePath="Content"
                   Width="100" 
                   Margin="0,0,0,10">
                 <ComboBoxItem Content="1"/>
@@ -83,7 +83,7 @@
             </ComboBox>
 
             <TextBlock Text="Этажи:"/>
-            <ComboBox SelectedValue="{Binding Floors}" SelectedValuePath="Content"
+            <ComboBox SelectedValue="{Binding SelectedObject.Floors}" SelectedValuePath="Content"
                   Width="100" 
                   Margin="0,0,0,10">
                 <ComboBoxItem Content="1"/>
@@ -92,27 +92,27 @@
             </ComboBox>
 
             <TextBlock Text="Площадь (кв. м):"/>
-            <TextBox Text="{Binding Square}" Width="100" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding SelectedObject.Square}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Тип объекта:"/>
-            <ComboBox SelectedValue="{Binding TypeId}" 
+            <ComboBox SelectedValue="{Binding SelectedObject.TypeId, Mode=TwoWay}" 
                   ItemsSource="{Binding ObjectTypes}" 
                   DisplayMemberPath="TypeName" 
                   SelectedValuePath="Id" 
                   Margin="0,0,0,10"/>
 
             <TextBlock Text="Тип сделки:"/>
-            <ComboBox SelectedValue="{Binding DealTypeId}" 
+            <ComboBox SelectedValue="{Binding SelectedObject.DealTypeId, Mode=TwoWay}" 
                   ItemsSource="{Binding DealTypes}" 
                   DisplayMemberPath="DealName" 
                   SelectedValuePath="Id" 
                   Margin="0,0,0,10"/>
 
             <TextBlock Text="Улица:"/>
-            <TextBox Text="{Binding Street}" Width="100" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding SelectedObject.Street}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Здание:"/>
-            <TextBox Text="{Binding Building}" Width="100" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding SelectedObject.Building}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Номер квартиры:"/>
             <TextBox Text="{Binding Number}" Width="100" Margin="0,0,0,10"/>
@@ -121,7 +121,7 @@
             <TextBox Text="{Binding Price}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Владелец:"/>
-            <ComboBox SelectedValue="{Binding OwnerId}" 
+            <ComboBox SelectedValue="{Binding SelectedObject.OwnerId, Mode=TwoWay}" 
                   ItemsSource="{Binding Owners}" 
                   DisplayMemberPath="FullName"
                   SelectedValuePath="Id" 

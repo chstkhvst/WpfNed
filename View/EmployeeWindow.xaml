@@ -199,15 +199,15 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <DataGrid ItemsSource="{Binding Objects}" 
-                                  SelectedItem="{Binding SelectedObject, Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedObject, Mode=OneWayToSource}"
                               AutoGenerateColumns="False"
                               Style="{StaticResource CustomDataGridStyle}"
                               ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
                               CellStyle="{StaticResource DataGridCellStyle}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Тип объекта" Binding="{Binding ObjectType.TypeName}"/>
-                                <DataGridTextColumn Header="Тип сделки" Binding="{Binding DealType.DealName}"/>
-                                <DataGridTextColumn Header="Статус объекта" Binding="{Binding Status.StatusName}"/>
+                                <DataGridTextColumn Header="Тип объекта" Binding="{Binding TypeDisplay}"/>
+                                <DataGridTextColumn Header="Тип сделки" Binding="{Binding DealTypeDisplay}"/>
+                                <DataGridTextColumn Header="Статус объекта" Binding="{Binding StatusDisplay}"/>
                                 <DataGridTextColumn Header="Улица" Binding="{Binding Street}"/>
                                 <DataGridTextColumn Header="Дом" Binding="{Binding Building}"/>
                                 <DataGridTextColumn Header="Квартира" Binding="{Binding Number}"/>
@@ -215,7 +215,7 @@
                                 <DataGridTextColumn Header="Комнаты" Binding="{Binding Rooms}"/>
                                 <DataGridTextColumn Header="Площадь" Binding="{Binding Square}"/>
                                 <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}"/>
-                                <DataGridTextColumn Header="Владелец" Binding="{Binding Owner.FullName}"/>
+                                <DataGridTextColumn Header="Владелец" Binding="{Binding OwnerDisplay}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
