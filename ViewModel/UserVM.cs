@@ -29,12 +29,12 @@ namespace WpfNed.ViewModel
         public ICommand RefreshObjCommand { get; }
         public ICommand EditObjCommand { get; }
 
-        public string FullName { get; set; }
-        public int RoleId { get; set; }
-        public string Passport { get; set; }
-        public string Phone { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+        //public string FullName { get; set; }
+        //public int RoleId { get; set; }
+        //public string Passport { get; set; }
+        //public string Phone { get; set; }
+        //public string Login { get; set; }
+        //public string Password { get; set; }
         public UserVM()
         {
             _windowService = new WindowService();

@@ -16,6 +16,7 @@ namespace WpfNed.ViewModel
     {
         public ObjectTableVM ObjectTableVM { get; set; }
         public UserVM UserVM { get; set; }
+        public ContractVM ContractVM { get; set; }
 
         //TableModel tb = new TableModel();
 
@@ -23,6 +24,7 @@ namespace WpfNed.ViewModel
         {
             ObjectTableVM = new ObjectTableVM();
             UserVM = new UserVM();
+            ContractVM = new ContractVM();
         }
 
 

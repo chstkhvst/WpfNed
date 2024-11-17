@@ -94,6 +94,22 @@ namespace WpfNed.Model
                 return r;
             }
         }
+        public List<ContractDTO> GetContractsDTO()
+        {
+            using (var db = new Model1())
+            {
+                db.Contract.Load();
+                List<ContractDTO> r = db.Contract.ToList().Select(i => new ContractDTO(i)).ToList();
+                for (int i = 0; i < r.Count; i++)
+                {
+                    r[i].DisplayReservationUs = db.Reservation.Find(r[i].ReservationId).User.FullName;
+                    r[i].DisplayReservationAd = db.Reservation.Find(r[i].ReservationId).Object.Street;
+                    r[i].DisplayReservationOw = db.Reservation.Find(r[i].ReservationId).Object.Owner.FullName;
+                    r[i].DisplayUser = db.User.Find(r[i].UserId).FullName;
+                }
+                return r;
+            }
+        }
         public List<Reservation> GetReservations()
         {
             db.Reservation.Load();

@@ -250,30 +250,44 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Договоры" Style="{StaticResource CustomTabItemStyle}">
-                    <DataGrid ItemsSource ="{Binding Contracts}"
-                              AutoGenerateColumns="False"
-                              Style="{StaticResource CustomDataGridStyle}"
-                              ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
-                              CellStyle="{StaticResource DataGridCellStyle}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="№" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Покупатель" Binding="{Binding Reservation.User.FullName}"/>
-                            <DataGridTextColumn Header="Объект">
-                                <DataGridTextColumn.Binding>
-                                    <MultiBinding Converter="{StaticResource AddressConverter}">
-                                        <Binding Path="Reservation.Object.Street" />
-                                        <Binding Path="Reservation.Object.Building" />
-                                        <Binding Path="Reservation.Object.Number" />
-                                    </MultiBinding>
-                                </DataGridTextColumn.Binding>
-                            </DataGridTextColumn>
-                            <DataGridTextColumn Header="Владелец" Binding="{Binding Reservation.Object.Owner.FullName}"/>
-                            <DataGridTextColumn Header="Сотрудник" Binding="{Binding User.FullName}"/>
-                            <DataGridTextColumn Header="Дата заезда" Binding="{Binding StartDate, StringFormat={}{0:dd.MM.yyyy}}"/>
-                            <DataGridTextColumn Header="Дата выезда" Binding="{Binding EndDate, StringFormat={}{0:dd.MM.yyyy}}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <TabItem Header="Договоры" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding ContractVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding Contracts}" SelectedItem="{Binding SelectedContract}" AutoGenerateColumns="False"
+                                  Style="{StaticResource CustomDataGridStyle}"
+                                  ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
+                                  CellStyle="{StaticResource DataGridCellStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding Id}"/>
+                                <DataGridTextColumn Header="Дата заключения" Binding="{Binding SignDate, StringFormat=d}"/>
+                                <DataGridTextColumn Header="Покупатель" Binding="{Binding DisplayReservationUs}"/>
+                                <DataGridTextColumn Header="Улица" Binding="{Binding DisplayReservationAd}"/>
+                                <DataGridTextColumn Header="Владелец" Binding="{Binding DisplayReservationOw}"/>
+                                <DataGridTextColumn Header="Стоимость" Binding="{Binding Total}"/>
+                                <DataGridTextColumn Header="Сотрудник" Binding="{Binding DisplayUser}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                            <ComboBox ItemsSource="{Binding Reservations}" 
+                                      DisplayMemberPath="Id" 
+                                      SelectedValue="{Binding SelectedReservationId, Mode=TwoWay}" 
+                                      SelectedValuePath="Id" 
+                                      Margin="5"/>
+
+                            <ComboBox ItemsSource="{Binding Users}" 
+                                      DisplayMemberPath="FullName" 
+                                      SelectedValue="{Binding SelectedUserId, Mode=TwoWay}" 
+                                      SelectedValuePath="Id" 
+                                      Width="100"
+                                      Margin="5"/>
+
+                            <Button Content="Составить договор" Style="{StaticResource StyledButton}" Command="{Binding AddObjCommand}" Width ="120" Margin="10"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Пользователи" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding UserVM}">
                     <Grid>
