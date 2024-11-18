@@ -1,4 +1,7 @@
-﻿using System;
+﻿using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.Diagnostics;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,11 +13,14 @@ using WpfNed.DTO;
 using WpfNed.EF;
 using WpfNed.Model;
 using WpfNed.Services;
+using System.IO;
+
 
 namespace WpfNed.ViewModel
 {
     public class ContractVM : INotifyPropertyChanged
     {
+
         TableModel tb = new TableModel();
         ContractModel cm = new ContractModel();
         private IWindowService _windowService;
@@ -59,10 +65,11 @@ namespace WpfNed.ViewModel
                 OnPropertyChanged();
             }
         }
-        #endregion
 
-        #region ADDITIONAL LISTS
-        private List<UserDTO> _users;
+    #endregion
+
+    #region ADDITIONAL LISTS
+    private List<UserDTO> _users;
         public List<UserDTO> Users
         {
             get
@@ -146,16 +153,15 @@ namespace WpfNed.ViewModel
                     SignDate = DateTime.Now,
                     ReservationId = SelectedReservationId,
                     UserId = SelectedUserId,
-                    Total = CalculateTotal(SelectedReservationId), // Вычисление общей суммы
+                    Total = CalculateTotal(SelectedReservationId),
                 };
                 cm.AddObj(newContract);
-                RefreshObjects(); // Обновить список договоров после добавления
+                RefreshObjects();
             }
         }
 
         private int CalculateTotal(int reservationId)
         {
-            // Логика для вычисления общей суммы на основе выбранной брони
             var reservation = _reservations.FirstOrDefault(r => r.Id == reservationId);
             return reservation?.Object.Price ?? 0;
         }

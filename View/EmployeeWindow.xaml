@@ -282,10 +282,11 @@
                                       DisplayMemberPath="FullName" 
                                       SelectedValue="{Binding SelectedUserId, Mode=TwoWay}" 
                                       SelectedValuePath="Id" 
-                                      Width="100"
+                                      Width="150"
                                       Margin="5"/>
 
                             <Button Content="Составить договор" Style="{StaticResource StyledButton}" Command="{Binding AddObjCommand}" Width ="120" Margin="10"/>
+                            <Button Style="{StaticResource StyledButton}" Content="Удалить" Command="{Binding DeleteObjCommand}" Margin="5"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
