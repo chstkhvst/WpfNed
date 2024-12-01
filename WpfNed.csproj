@@ -132,6 +132,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\AddressConverter.cs" />
+    <Compile Include="Converters\ByteArrayToImageConverter.cs" />
     <Compile Include="DTO\ContractDTO.cs" />
     <Compile Include="DTO\REObjectDTO.cs" />
     <Compile Include="DTO\ReservationDTO.cs" />

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using WpfNed.DTO;
 using WpfNed.EF;
 
@@ -90,7 +91,9 @@ namespace WpfNed.Model
                     r[i].StatusDisplay = db.Status.Find(r[i].StatusId).StatusName;
                     r[i].OwnerDisplay = db.Owner.Find(r[i].OwnerId).FullName;
                     r[i].TypeDisplay = db.ObjectType.Find(r[i].TypeId).TypeName;
+                    r[i].Images = GetObjectImages(r[i].Id);
                 }
+
                 return r;
             }
         }
@@ -109,6 +112,17 @@ namespace WpfNed.Model
                 }
                 return r;
             }
+        }
+        public List<ImageSource> GetObjectImages(int id)
+        {
+            List<byte[]> lst = db.ObjectImage.Where(i  => i.ObjectId == id).Select(i => i.ObjImage).ToList();
+            List<ImageSource> result = new List<ImageSource>();
+            for (int i =0 ; i < lst.Count(); i++)
+            {
+                ImageSource img = (ImageSource)new ImageSourceConverter().ConvertFrom(lst[i]);
+                result.Add(img);
+            }
+            return result;
         }
         public List<Reservation> GetReservations()
         {

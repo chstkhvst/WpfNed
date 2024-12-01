@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfNed.EF;
 using WpfNed.Model;
+using WpfNed.DTO;
 
 namespace WpfNed.ViewModel
 {
@@ -16,21 +17,22 @@ namespace WpfNed.ViewModel
         TableModel tb = new TableModel();
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private List<RealEstateObject> _objects;
-        public List<RealEstateObject> Objects
+        private List<REObjectDTO> _objects;
+        public List<REObjectDTO> Objects
         {
             get
             {
                 if (_objects == null)
                 {
-                    _objects = tb.GetObjects();
+                    _objects = tb.GetObjectsDTO();
+                    //LinkImagesToObjects();
                     OnPropertyChanged(nameof(Objects));
                 }
                 return _objects;
             }
         }
-        private List<RealEstateObject> _filteredObjects;
-        public List<RealEstateObject> FilteredObjects
+        private List<REObjectDTO> _filteredObjects;
+        public List<REObjectDTO> FilteredObjects
         {
             get => _filteredObjects;
             set
@@ -41,10 +43,19 @@ namespace WpfNed.ViewModel
         }
         public void RefreshObjects()
         {
-            _objects = tb.GetObjects();
+            _objects = tb.GetObjectsDTO();
+            //_images = tb.GetObjectImages();
             FilteredObjects = _objects;
             OnPropertyChanged(nameof(Objects));
         }
+        //private void LinkImagesToObjects()
+        //{
+        //    if (_images == null) _images = tb.GetObjectImages();
+        //    foreach (var obj in _objects)
+        //    {
+        //        obj.MainImage = _images.FirstOrDefault(img => img.ObjectId == obj.Id);
+        //    }
+        //}
         public ObjectType SelectedObjectType { get; set; }
         public int SelectedRoomCount { get; set; }
         public DealType SelectedDealType { get; set; }

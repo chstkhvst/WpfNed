@@ -13,6 +13,7 @@
         xmlns:converters="clr-namespace:WpfNed.Converters">
     <Window.Resources>
         <converters:AddressConverter x:Key="AddressConverter"/>
+        <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -129,23 +130,34 @@
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel>
-                                    <TextBlock Text="Адрес" FontWeight="Bold"></TextBlock>
-                                    <TextBlock>
-                                        <TextBlock.Text>
-                                            <MultiBinding Converter="{StaticResource AddressConverter}">
-                                                <Binding Path="Street"/>
-                                                <Binding Path="Building"/>
-                                                <Binding Path="Number"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                    <TextBlock Text="{Binding ObjectType.TypeName, StringFormat='Тип объекта: {0}'}"/>
-                                    <TextBlock Text="{Binding DealType.DealName}"/>
-                                    <TextBlock Text="{Binding Price, StringFormat='Цена: {0:C}'}"/>
-                                </StackPanel>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0" Margin="5">
+                                        <TextBlock Text="Адрес" FontWeight="Bold"/>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource AddressConverter}">
+                                                    <Binding Path="Street"/>
+                                                    <Binding Path="Building"/>
+                                                    <Binding Path="Number"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <TextBlock Text="{Binding ObjectType.TypeName, StringFormat='Тип объекта: {0}'}"/>
+                                        <TextBlock Text="{Binding DealType.DealName}"/>
+                                        <TextBlock Text="{Binding Price, StringFormat='Цена: {0:C}'}"/>
+                                    </StackPanel>
+                                    <Image Grid.Column="1" Source="{Binding Images[0]}" 
+                                           Height="auto" Width="auto" 
+                                           Stretch="Uniform" Margin="150 0 0 0" 
+                                           HorizontalAlignment="Left"/>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+
                     </ListBox>
                 </StackPanel>
             </ScrollViewer>

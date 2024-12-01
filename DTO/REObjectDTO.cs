@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using WpfNed.EF;
 using WpfNed.View;
+using System.Windows.Media;
 
 namespace WpfNed.DTO
 {
@@ -95,5 +97,8 @@ namespace WpfNed.DTO
         public virtual Status Status { get; set; }
 
         public virtual ObjectType ObjectType { get; set; }
+
+        [NotMapped]
+        public List<ImageSource> Images { get; set; }
     }
 }
