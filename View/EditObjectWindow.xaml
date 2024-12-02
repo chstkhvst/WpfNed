@@ -64,7 +64,7 @@
             </Button>
         </Grid>
         <ListBox Margin="20 40 20 10">
-            <TextBlock Text="Добавление нового объекта" FontSize="16" FontWeight="Bold"/>
+            <TextBlock Text="Редактирование объекта" FontSize="16" FontWeight="Bold"/>
 
             <TextBlock Text="Количество комнат:"/>
             <ComboBox SelectedValue="{Binding SelectedObject.Rooms}" SelectedValuePath="Content"

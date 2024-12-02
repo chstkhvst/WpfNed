@@ -87,7 +87,7 @@ namespace WpfNed.Model
                 List<REObjectDTO> r = db.Object.ToList().Select(i => new REObjectDTO(i)).ToList();
                 for (int i = 0; i < r.Count; i++)
                 {
-                    r[i].DealTypeDisplay = db.DealType.Find(r[i].TypeId).DealName;
+                    r[i].DealTypeDisplay = db.DealType.Find(r[i].DealTypeId).DealName;
                     r[i].StatusDisplay = db.Status.Find(r[i].StatusId).StatusName;
                     r[i].OwnerDisplay = db.Owner.Find(r[i].OwnerId).FullName;
                     r[i].TypeDisplay = db.ObjectType.Find(r[i].TypeId).TypeName;

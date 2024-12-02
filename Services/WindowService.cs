@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfNed.View;
+using WpfNed.ViewModel;
 
 namespace WpfNed.Services
 {
@@ -29,6 +30,10 @@ namespace WpfNed.Services
                     break;
                 case "EditObj":
                     window = new EditObjectWindow();
+                    window.DataContext = viewModel;
+                    break;
+                case "OpenAd":
+                    window = new BookWindow();
                     window.DataContext = viewModel;
                     break;
                 default:

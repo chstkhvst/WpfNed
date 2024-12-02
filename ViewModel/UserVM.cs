@@ -13,6 +13,8 @@ using WpfNed.Services;
 using System.Collections.ObjectModel;
 using WpfNed.DTO;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace WpfNed.ViewModel
 {
@@ -129,8 +131,23 @@ namespace WpfNed.ViewModel
         }
         private void UpdateUser()
         {
-            ut.UpdateUser(SelectedUser);
-            RefreshObjects();
+            if (string.IsNullOrEmpty(SelectedUser.FullName) || SelectedUser.FullName.Length > 35 || !Regex.IsMatch(SelectedUser.FullName, @"^[а-яА-Яa-zA-Z\s]+$"))
+                MessageBox.Show("Пожалуйста, введите ФИО корректно.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedUser.Password) || SelectedUser.Password.Length > 10)
+                MessageBox.Show("Пожалуйста, введите пароль длиной до 10 символов.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedUser.Login) || SelectedUser.Login.Length > 10)
+                MessageBox.Show("Пожалуйста, введите логин длиной до 10 символов.", "Ошибка!");
+            else if (SelectedUser.Passport != null && (SelectedUser.Passport.Length != 10))
+                MessageBox.Show("Пожалуйста, введите корректно паспортные данные.", "Ошибка!");
+            else if (SelectedUser.Phone != null && (SelectedUser.Phone.Length != 11))
+                MessageBox.Show("Пожалуйста, введите корректно номер телефона.", "Ошибка!");
+            else if (SelectedUser.RoleId == 0)
+                MessageBox.Show("Пожалуйста, выберите роль пользователя.", "Ошибка!");
+            else
+            {
+                ut.UpdateUser(SelectedUser);
+                RefreshObjects();
+            }
         }
         public void AddUser()
         {
@@ -144,10 +161,25 @@ namespace WpfNed.ViewModel
             //    Phone = this.Phone,
             //};
             //newObject.UserRole = UserRoles.FirstOrDefault(r => r.Id == newObject.RoleId);
-            ut.AddObj(SelectedUser);
-            //Users = null;
-            //Users.Add(newObject);
-            RefreshObjects();
+            if (string.IsNullOrEmpty(SelectedUser.FullName) || SelectedUser.FullName.Length > 35 || !Regex.IsMatch(SelectedUser.FullName, @"^[а-яА-Яa-zA-Z\s]+$"))
+                MessageBox.Show("Пожалуйста, введите ФИО корректно.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedUser.Password) || SelectedUser.Password.Length > 10)
+                MessageBox.Show("Пожалуйста, введите пароль длиной до 10 символов.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedUser.Login) || SelectedUser.Login.Length > 10)
+                MessageBox.Show("Пожалуйста, введите логин длиной до 10 символов.", "Ошибка!");
+            else if (SelectedUser.Passport != null && (SelectedUser.Passport.Length != 10))
+                MessageBox.Show("Пожалуйста, введите корректно паспортные данные.", "Ошибка!");
+            else if (SelectedUser.Phone != null && (SelectedUser.Phone.Length != 11))
+                MessageBox.Show("Пожалуйста, введите корректно номер телефона.", "Ошибка!");
+            else if (SelectedUser.RoleId == 0)
+                MessageBox.Show("Пожалуйста, выберите роль пользователя.", "Ошибка!");
+            else
+            {
+                ut.AddObj(SelectedUser);
+                //Users = null;
+                //Users.Add(newObject);
+                RefreshObjects();
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
 

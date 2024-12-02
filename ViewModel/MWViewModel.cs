@@ -8,13 +8,29 @@ using System.Windows.Input;
 using WpfNed.EF;
 using WpfNed.Model;
 using WpfNed.DTO;
+using WpfNed.Services;
+using PdfSharp.Pdf;
+using System.Data.SqlTypes;
+using System.Windows;
 
 namespace WpfNed.ViewModel
 {
     using RealEstateObject = WpfNed.EF.REObject;
     internal class MWViewModel : INotifyPropertyChanged
     {
+        IWindowService _windowService;
+        public ICommand AddReservationInDBCommand { get; }
         TableModel tb = new TableModel();
+        ReservationModel rm = new ReservationModel();
+        public MWViewModel()
+        {
+            LoadData();
+            _windowService = new WindowService();
+            ApplyFiltersCommand = new RelayCommand(ApplyFilters);
+            AddReservationInDBCommand = new RelayCommand<Window>(AddRes);
+            UpdateFilteredObjects();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<REObjectDTO> _objects;
@@ -40,6 +56,12 @@ namespace WpfNed.ViewModel
                 _filteredObjects = value;
                 OnPropertyChanged(nameof(FilteredObjects));
             }
+        }
+        public void UpdateFilteredObjects()
+        {
+            if (_objects == null)
+                return;
+            FilteredObjects = _objects.Where(obj => obj.StatusId == 1).ToList();
         }
         public void RefreshObjects()
         {
@@ -127,13 +149,9 @@ namespace WpfNed.ViewModel
                 (SelectedRoomCount == 0 || obj.Rooms == SelectedRoomCount) &&
                 (SelectedDealType == null || obj.DealType.Id == SelectedDealType.Id) &&
                 (MinPrice == null || obj.Price >= MinPrice) &&
-                (MaxPrice == null || obj.Price <= MaxPrice)
+                (MaxPrice == null || obj.Price <= MaxPrice) &&
+                (obj.StatusId == 1)
             ).ToList();
-        }
-        public MWViewModel()
-        {
-            LoadData();
-            ApplyFiltersCommand = new RelayCommand(ApplyFilters);
         }
         public void LoadData()
         {
@@ -141,6 +159,71 @@ namespace WpfNed.ViewModel
             DealTypes = tb.GetDealTypes();
             RefreshObjects();
         }
+
+        #region BRONIROVANIE
+        public string FullName { get; set; }
+        public string Passport { get; set; }
+        public string Phone { get; set; }
+        public DateTime? StartDate { get; set; }
+        private ICommand _OpenAdCommand;
+
+        public ICommand OpenAdCommand
+        {
+            get
+            {
+                if (_OpenAdCommand == null)
+                {
+                    _OpenAdCommand = new RelayCommand<REObjectDTO>(OpenObjectDetails);
+                }
+                return _OpenAdCommand;
+            }
+        }
+        private ReservationDTO _selectedReservation;
+        public ReservationDTO SelectedReservation
+        {
+            get => _selectedReservation;
+            set
+            {
+                _selectedReservation = value;
+                OnPropertyChanged(nameof(SelectedReservation));
+            }
+        }
+        private REObjectDTO selObj;
+        private void OpenObjectDetails(REObjectDTO selectedObject)
+        {
+            if (selectedObject == null)
+                return;
+            selObj = selectedObject;
+            SelectedReservation = new ReservationDTO();
+            _windowService.ShowWindow("OpenAd", this);
+        }
+        public void AddRes(Window w)
+        {
+            int usId = rm.FindUser(FullName);
+            if (usId == 0)
+            {
+                MessageBox.Show("Невозможно создать бронь: пользователь не зарегистрирован в системе!", "Ошибка!");
+            }
+            else if (string.IsNullOrEmpty(Phone) || Phone.Length != 11)
+                MessageBox.Show("Пожалуйста, введите номер телефона корректно.", "Ошибка!");
+            else if (string.IsNullOrEmpty(Passport) || Passport.Length != 10)
+                MessageBox.Show("Пожалуйста, введите номер паспорта корректно.", "Ошибка!");
+            else if (StartDate == null)
+                MessageBox.Show("Пожалуйста, введите желаемую дату заезда.", "Ошибка!");
+            else
+            {
+                SelectedReservation.ObjectId = selObj.Id;
+                SelectedReservation.UserId = usId;
+                SelectedReservation.StartDate = StartDate;
+                rm.AddRes(SelectedReservation);
+                w.Close();
+                MessageBox.Show("Ваша заявка принята!", "Успешно!");
+            }
+            
+        }
+        #endregion
+
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -157,6 +157,7 @@
     <Compile Include="Model\TableModel.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="RelayCommandT.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="ViewModel\AddObjVM.cs" />
@@ -173,6 +174,9 @@
     </Compile>
     <Compile Include="View\AddUserWindow.xaml.cs">
       <DependentUpon>AddUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BookWindow.xaml.cs">
+      <DependentUpon>BookWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditObjectWindow.xaml.cs">
       <DependentUpon>EditObjectWindow.xaml</DependentUpon>
@@ -191,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\AddUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

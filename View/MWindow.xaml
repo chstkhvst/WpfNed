@@ -14,6 +14,39 @@
     <Window.Resources>
         <converters:AddressConverter x:Key="AddressConverter"/>
         <converters:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+        <Style x:Key="StyledButton" TargetType="Button">
+            <Setter Property="Background" Value= "DarkSeaGreen"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="10 20 10 0"/>
+            <Setter Property="Height" Value="auto"/>
+            <Setter Property="Width" Value="auto"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="#388E3C"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#66BB6A"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#43A047"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -124,7 +157,7 @@
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Background" Value="DarkSeaGreen"/>
                                 <Setter Property="Margin" Value="5"/>
-                                <Setter Property="Height" Value="150"/>
+                                <Setter Property="Height" Value="200"/>
                                 <Setter Property="BorderThickness" Value="0"/>
                             </Style>
                         </ListBox.ItemContainerStyle>
@@ -149,6 +182,16 @@
                                         <TextBlock Text="{Binding ObjectType.TypeName, StringFormat='Тип объекта: {0}'}"/>
                                         <TextBlock Text="{Binding DealType.DealName}"/>
                                         <TextBlock Text="{Binding Price, StringFormat='Цена: {0:C}'}"/>
+                                        <Button Style="{StaticResource StyledButton}" 
+                                                Command="{Binding DataContext.OpenAdCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                CommandParameter="{Binding}">
+                                            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Padding="5">
+                                                        <Run Text="ЗАБРОНИРОВАТЬ"/>
+                                                        <LineBreak/>
+                                                        <Run Text="ОБЪЕКТ"/>
+                                            </TextBlock>
+                                        </Button>
+
                                     </StackPanel>
                                     <Image Grid.Column="1" Source="{Binding Images[0]}" 
                                            Height="auto" Width="auto" 

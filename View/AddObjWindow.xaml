@@ -115,10 +115,10 @@
             <TextBox Text="{Binding SelectedObject.Building}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Номер квартиры:"/>
-            <TextBox Text="{Binding Number}" Width="100" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding SelectedObject.Number}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Цена:"/>
-            <TextBox Text="{Binding Price}" Width="100" Margin="0,0,0,10"/>
+            <TextBox Text="{Binding SelectedObject.Price}" Width="100" Margin="0,0,0,10"/>
 
             <TextBlock Text="Владелец:"/>
             <ComboBox SelectedValue="{Binding SelectedObject.OwnerId, Mode=TwoWay}" 

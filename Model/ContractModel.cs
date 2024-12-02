@@ -26,6 +26,8 @@ namespace WpfNed.Model
             };
             db.Contract.Add(newContract);
             var reservation = db.Reservation.FirstOrDefault(r => r.Id == newContract.ReservationId);
+            var resObj = db.Object.FirstOrDefault(u => u.Id == newContract.Reservation.ObjectId);
+            if (resObj != null) resObj.StatusId = 3;
 
             if (reservation != null)
             {
@@ -33,7 +35,7 @@ namespace WpfNed.Model
                 db.SaveChanges();
             }
             //Contract lastContract = db.Contract
-            //    .OrderByDescending(c => c.Id) // Сортировка по идентификатору, если он уникален и автоинкрементируем
+            //    .OrderByDescending(c => c.Id) 
             //    .FirstOrDefault(); 
             User em = db.User.FirstOrDefault(r => r.Id == newContract.UserId);
             User cl = reservation.User;

@@ -12,6 +12,8 @@ using WpfNed.EF;
 using WpfNed.Services;
 using System.Collections.ObjectModel;
 using WpfNed.DTO;
+using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace WpfNed.ViewModel
 {
@@ -174,15 +176,62 @@ namespace WpfNed.ViewModel
                 RefreshObjects();
             }
         }
+
         public void AddObject()
         {
-            tbObj.AddObj(SelectedObject);
-            RefreshObjects();
+            if (SelectedObject.Square > 500 || SelectedObject.Square == 0)
+                MessageBox.Show("Пожалуйста, введите реальное значение площади.", "Ошибка!");
+            else if (SelectedObject.Price == 0 || SelectedObject.Price < 5000 || SelectedObject.Price > 50000000)
+                MessageBox.Show("Пожалуйста, введите реальную стоимость.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedObject.Street) || SelectedObject.Street.Length > 35 || !Regex.IsMatch(SelectedObject.Street, @"^[а-яА-Яa-zA-Z\s]+$"))
+                MessageBox.Show("Пожалуйста, введите корректно улицу.", "Ошибка!");
+            else if (SelectedObject.Building == 0 || SelectedObject.Building > 199)
+                MessageBox.Show("Пожалуйста, введите корректно номер здания.", "Ошибка!");
+            else if (SelectedObject.Number != null && (SelectedObject.Building == 0 || SelectedObject.Number > 600))
+                MessageBox.Show("Пожалуйста, введите корректный номер квартиры.", "Ошибка!");
+            else if (SelectedObject.Rooms == 0)
+                MessageBox.Show("Пожалуйста, выберите количество комнат.", "Ошибка!");
+            else if (SelectedObject.Floors == 0)
+                MessageBox.Show("Пожалуйста, выберите количество этажей.", "Ошибка!");
+            else if (SelectedObject.DealTypeId == 0)
+                MessageBox.Show("Пожалуйста, выберите тип сделки.", "Ошибка!");
+            else if (SelectedObject.TypeId == 0)
+                MessageBox.Show("Пожалуйста, выберите тип объекта.", "Ошибка!");
+            else if (SelectedObject.OwnerId == 0)
+                MessageBox.Show("Пожалуйста, выберите владельца.", "Ошибка!");
+            else
+            {
+                tbObj.AddObj(SelectedObject);
+                RefreshObjects();
+            }
         }
         public void UpdateObject()
         {
-            tbObj.UpdObj(SelectedObject);
-            RefreshObjects();
+            if (SelectedObject.Square > 500 || SelectedObject.Square == 0)
+                MessageBox.Show("Пожалуйста, введите реальное значение площади.", "Ошибка!");
+            else if (SelectedObject.Price == 0 || SelectedObject.Price < 5000 || SelectedObject.Price > 50000000)
+                MessageBox.Show("Пожалуйста, введите реальную стоимость.", "Ошибка!");
+            else if (string.IsNullOrEmpty(SelectedObject.Street) || SelectedObject.Street.Length > 35 || !Regex.IsMatch(SelectedObject.Street, @"^[а-яА-Яa-zA-Z\s]+$"))
+                MessageBox.Show("Пожалуйста, введите корректно улицу.", "Ошибка!");
+            else if (SelectedObject.Building == 0 || SelectedObject.Building > 199)
+                MessageBox.Show("Пожалуйста, введите корректно номер здания.", "Ошибка!");
+            else if (SelectedObject.Number != null && (SelectedObject.Building == 0 || SelectedObject.Number > 600))
+                MessageBox.Show("Пожалуйста, введите корректный номер квартиры.", "Ошибка!");
+            else if (SelectedObject.Rooms == 0)
+                MessageBox.Show("Пожалуйста, выберите количество комнат.", "Ошибка!");
+            else if (SelectedObject.Floors == 0)
+                MessageBox.Show("Пожалуйста, выберите количество этажей.", "Ошибка!");
+            else if (SelectedObject.DealTypeId == 0)
+                MessageBox.Show("Пожалуйста, выберите тип сделки.", "Ошибка!");
+            else if (SelectedObject.TypeId == 0)
+                MessageBox.Show("Пожалуйста, выберите тип объекта.", "Ошибка!");
+            else if (SelectedObject.OwnerId == 0)
+                MessageBox.Show("Пожалуйста, выберите владельца.", "Ошибка!");
+            else
+            {
+                tbObj.UpdObj(SelectedObject);
+                RefreshObjects();
+            }
         }
         #endregion
 
