@@ -58,7 +58,7 @@ namespace WpfNed.Model
         }
         public void GenerateAndShowPdf(Contract contract, User em, User cl, Reservation r, string address)
         {
-            string filePath = Path.Combine(Path.GetTempPath(), $"Contract_{contract.Id}.pdf");
+            string filePath = Path.Combine(Environment.CurrentDirectory, $"Contract_{contract.Id}.pdf");
 
             using (PdfDocument document = new PdfDocument())
             {

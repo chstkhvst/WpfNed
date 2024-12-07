@@ -100,7 +100,7 @@
                 </Border>
                 <TextBlock x:Name="tbFullname" Grid.Column="0" Grid.Row="4" Text="ФИО" FontFamily="Trebuchet MS" VerticalAlignment="Center" Margin="5, 10, 5, 0" Visibility="Collapsed"/>
                 <Border x:Name="txtFullname" Grid.Column="1" Grid.Row="4" CornerRadius="15" BorderThickness="1" Background="DarkSeaGreen" Opacity="0.3" Visibility="Collapsed">
-                    <TextBox FontSize="16" FontFamily="Trebuchet MS" Margin="10, 5, 10, 5" Background="DarkSeaGreen" BorderThickness="0"/>
+                    <TextBox Text="{Binding Fullname, UpdateSourceTrigger=PropertyChanged}" FontSize="16" FontFamily="Trebuchet MS" Margin="10, 5, 10, 5" Background="DarkSeaGreen" BorderThickness="0"/>
                 </Border>
 
                 <Button x:Name="btnLogin" 
@@ -132,20 +132,18 @@
                         </Style>
                     </Button.Style>
                 </Button>
-
-
                 <Button x:Name="btnSignUp" 
                         Grid.Column="1"
                         Grid.Row="6"
                         Background="DarkSeaGreen"
-                        Click="btnSignUp_Click"
                         Content="Создать аккаунт"
                         Cursor="Hand"
                         FontSize="12"
                         FontFamily="Trebuchet MS"
                         Foreground="White"
                         Margin="0 15 0 0"
-                        Visibility="Collapsed">
+                        Visibility="Collapsed"
+                        Command="{Binding RegisterCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="Width" Value="110"/>

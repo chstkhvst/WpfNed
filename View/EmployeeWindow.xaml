@@ -428,8 +428,28 @@
                                      VerticalAlignment="Center" Width="50" Height="20" />
                             <Button Content="Построить отчет" Style="{StaticResource StyledButton}" 
                                     Command="{Binding GenerateReportCommand}" Margin="5"/>
+                            <Button Content="Экспорт в PDF" Style="{StaticResource StyledButton}" 
+                                    Command="{Binding ExportProfitReportToPdfCommand}" Margin="5"/>
                         </StackPanel>
                         <oxy:PlotView Grid.Row="1" Model="{Binding ProfitPlotModel}" />
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Отчет по прибыли 2" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding ProfitReportVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Margin="10">
+                            <TextBlock Text="Год:" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox Text="{Binding SelectedYearType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     VerticalAlignment="Center" Width="50" Height="20" />
+                            <Button Content="Построить отчет" Style="{StaticResource StyledButton}" 
+                                    Command="{Binding GenerateTypeReportCommand}" Margin="5"/>
+                            <Button Content="Экспорт в PDF" Style="{StaticResource StyledButton}" 
+                                    Command="{Binding ExportTypeProfitReportToPdfCommand}" Margin="5"/>
+                        </StackPanel>
+                        <oxy:PlotView Grid.Row="1" Model="{Binding TypeProfitPlotModel}" />
                     </Grid>
                 </TabItem>
 

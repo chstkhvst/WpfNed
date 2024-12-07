@@ -153,5 +153,10 @@ namespace WpfNed.Model
         {
             return db.User.FirstOrDefault(u => u.Login == login && u.Password == password);
         }
+        public bool CheckUsers(string Username)
+        {
+            if (db.User.Any(u => u.Login == Username)) return false;
+            return true;
+        }
     }
 }

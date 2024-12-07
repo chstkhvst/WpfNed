@@ -11,7 +11,6 @@ namespace WpfNed.Model
 
         public Dictionary<int, decimal> GetMonthlyProfit(int year)
         {
-            // Извлекаем все контракты для указанного года
             var contracts = db.Contract
                 .Where(c => c.SignDate.Year == year)
                 .Select(c => new
@@ -20,35 +19,28 @@ namespace WpfNed.Model
                     c.Total,
                     c.ReservationId
                 })
-                .ToList();  // Загружаем данные в память
-
-            // Получаем список всех резерваций, которые входят в резервации контрактов
-            var reservationIds = contracts.Select(c => c.ReservationId).ToList();  // Загружаем все ReservationId в память
+                .ToList(); 
+            var reservationIds = contracts.Select(c => c.ReservationId).ToList(); 
 
             var reservations = db.Reservation
-                .Where(r => reservationIds.Contains(r.Id))  // Теперь мы используем список идентификаторов, загруженных в память
+                .Where(r => reservationIds.Contains(r.Id)) 
                 .Select(r => new { r.Id, r.ObjectId })
-                .ToList();  // Загружаем данные в память
+                .ToList(); 
 
-            // Получаем типы сделок для объектов
-            var objectIds = reservations.Select(r => r.ObjectId).ToList();  // Загружаем все ObjectId в память
+            var objectIds = reservations.Select(r => r.ObjectId).ToList();  
 
             var dealTypes = db.Object
-                .Where(o => objectIds.Contains(o.Id))  // Проверяем объекты по загруженным идентификаторам
+                .Where(o => objectIds.Contains(o.Id))
                 .Select(o => new { o.Id, o.DealTypeId })
-                .ToList();  // Загружаем данные в память
+                .ToList();  
 
-            // Инициализируем итоговый словарь
             var monthlyProfit = new Dictionary<int, decimal>();
-            // Обрабатываем контракты
             foreach (var contract in contracts)
             {
                 var reservation = reservations.FirstOrDefault(r => r.Id == contract.ReservationId);
                 if (reservation != null)
                 {
                     var dealType = dealTypes.FirstOrDefault(d => d.Id == reservation.ObjectId);
-
-                    // Если DealTypeId == 2, добавляем сумму к текущему месяцу и всем последующим
                     if (dealType != null && dealType.DealTypeId == 1)
                     {
                         for (int month = contract.SignDate.Month; month <= 12; month++)
@@ -62,7 +54,6 @@ namespace WpfNed.Model
                     }
                     else
                     {
-                        // Если DealTypeId != 2, добавляем сумму только к текущему месяцу
                         if (!monthlyProfit.ContainsKey(contract.SignDate.Month))
                         {
                             monthlyProfit[contract.SignDate.Month] = 0;
@@ -71,12 +62,24 @@ namespace WpfNed.Model
                     }
                 }
             }
-
-            // Убедимся, что для всех месяцев (1-12) есть данные (даже если прибыль = 0)
             var result = Enumerable.Range(1, 12).ToDictionary(m => m, m => monthlyProfit.ContainsKey(m) ? monthlyProfit[m] : 0m);
 
             return result;
         }
+        public Dictionary<string, int> GetProfitByType(int year)
+        {
+            var contracts = db.Contract
+                .Where(c => c.SignDate.Year == year)
+                .Select(c => new { c.Total, c.Reservation.Object.TypeId })
+                .ToList();
+
+            var profitByType = contracts
+                .GroupBy(c => c.TypeId == 1 ? "Квартира" : "Дом")
+                .ToDictionary(g => g.Key, g => g.Sum(c => c.Total));
+
+            return profitByType;
+        }
+
 
     }
 }

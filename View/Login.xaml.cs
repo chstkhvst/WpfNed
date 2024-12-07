@@ -84,11 +84,11 @@ namespace WpfNed.View
             btnLogin.Visibility = Visibility.Visible;
         }
 
-        private void btnSignUp_Click(object sender, RoutedEventArgs e)
-        {
-            MWindow mainWindow = new MWindow();
-            mainWindow.Show();
-            this.Close();
-        }
+        //private void btnSignUp_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //MWindow mainWindow = new MWindow();
+        //    //mainWindow.Show();
+        //    //this.Close();
+        //}
     }
 }
