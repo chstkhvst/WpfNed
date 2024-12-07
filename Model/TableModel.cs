@@ -60,7 +60,7 @@ namespace WpfNed.Model
         //}
         public List<RealEstateObject> GetObjects()
         {
-            return db.Object.Include(o => o.Owner) // Загружаем владельцев
+            return db.Object.Include(o => o.Owner) 
                             .Include(o => o.ObjectType)
                             .Include(o => o.DealType)
                             .Include(o => o.Status)
@@ -109,6 +109,21 @@ namespace WpfNed.Model
                     r[i].DisplayReservationAd = db.Reservation.Find(r[i].ReservationId).Object.Street;
                     r[i].DisplayReservationOw = db.Reservation.Find(r[i].ReservationId).Object.Owner.FullName;
                     r[i].DisplayUser = db.User.Find(r[i].UserId).FullName;
+                }
+                return r;
+            }
+        }
+        public List<ReservationDTO> GetReservationsDTO()
+        {
+            using (var db = new Model1())
+            {
+                db.Reservation.Load();
+                List<ReservationDTO> r = db.Reservation.ToList().Select(i => new ReservationDTO(i)).ToList();
+                for (int i = 0; i < r.Count; i++)
+                {
+                    r[i].UserDisplay = db.Reservation.Find(r[i].UserId).User.FullName;
+                    r[i].ResStatusDisplay = db.Reservation.Find(r[i].ResStatusId).ResStatus.StatusType;
+                    r[i].ObjectDisplay = db.Reservation.Find(r[i].ObjectId).Object.Street;
                 }
                 return r;
             }

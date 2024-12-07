@@ -17,6 +17,7 @@ namespace WpfNed.ViewModel
         public ObjectTableVM ObjectTableVM { get; set; }
         public UserVM UserVM { get; set; }
         public ContractVM ContractVM { get; set; }
+        public ProfitReportVM ProfitReportVM { get; set; }
 
         TableModel tb = new TableModel();
 
@@ -25,6 +26,7 @@ namespace WpfNed.ViewModel
             ObjectTableVM = new ObjectTableVM();
             UserVM = new UserVM();
             ContractVM = new ContractVM();
+            ProfitReportVM = new ProfitReportVM();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

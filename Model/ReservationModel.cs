@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WpfNed.DTO;
 using WpfNed.EF;
 
@@ -13,9 +14,14 @@ namespace WpfNed.Model
         Model1 db = new Model1();
         public void DeleteRes(Reservation obj)
         {
-            var existingObject = db.Reservation.FirstOrDefault(o => o.Id == obj.Id);
-            db.Reservation.Remove(obj);
-            db.SaveChanges();
+            var existingObject = db.Reservation.Find(obj.Id);
+            var resObject = db.Object.Find(obj.ObjectId);
+            if (existingObject != null)
+            {
+                resObject.StatusId = 1;
+                db.Reservation.Remove(existingObject);
+                db.SaveChanges();
+            }
         }
         public void AddRes(ReservationDTO r)
         {

@@ -109,6 +109,12 @@ namespace WpfNed.Model
                 UseShellExecute = true
             });
         }
+        public bool FindRes(int resId)
+        {
+            var existingObject = db.Contract.FirstOrDefault(obj => obj.ReservationId == resId);
+            if (existingObject != null) return true;
+            return false;
+        }
         public void DeleteObject(ContractDTO obj)
         {
             var existingObject = db.Contract.Find(obj.Id);

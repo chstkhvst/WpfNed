@@ -14,6 +14,7 @@ using WpfNed.EF;
 using WpfNed.Model;
 using WpfNed.Services;
 using System.IO;
+using System.Windows;
 
 
 namespace WpfNed.ViewModel
@@ -23,6 +24,7 @@ namespace WpfNed.ViewModel
 
         TableModel tb = new TableModel();
         ContractModel cm = new ContractModel();
+        ReservationModel rm = new ReservationModel();
         private IWindowService _windowService;
         public ICommand DeleteObjCommand { get; }
         public ICommand RefreshObjCommand { get; }
@@ -66,6 +68,16 @@ namespace WpfNed.ViewModel
             }
         }
 
+        public Reservation _selectedReservation;
+        public Reservation SelectedReservation
+        {
+            get => _selectedReservation;
+            set
+            {
+                _selectedReservation = value;
+                OnPropertyChanged(nameof(SelectedReservation));
+            }
+        }
     #endregion
 
     #region ADDITIONAL LISTS
@@ -146,17 +158,22 @@ namespace WpfNed.ViewModel
 
         public void OpenAddObj()
         {
-            if (SelectedReservationId > 0 && SelectedUserId > 0)
+            if (SelectedReservation.Id > 0 && SelectedUserId > 0 && SelectedReservation.ResStatusId == 1)
             {
                 var newContract = new ContractDTO
                 {
                     SignDate = DateTime.Now,
-                    ReservationId = SelectedReservationId,
+                    ReservationId = SelectedReservation.Id,
                     UserId = SelectedUserId,
-                    Total = CalculateTotal(SelectedReservationId),
+                    Total = CalculateTotal(SelectedReservation.Id),
                 };
                 cm.AddObj(newContract);
                 RefreshObjects();
+            }
+            else
+            {
+                MessageBox.Show("Контракт по данной брони уже был заключен!", "Ошибка!");
+
             }
         }
 
@@ -172,13 +189,28 @@ namespace WpfNed.ViewModel
             OnPropertyChanged("Contracts");
             //Objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
         }
+        public void RefreshRes()
+        {
+            Reservations.Clear();
+            Reservations = tb.GetReservations();
+            OnPropertyChanged("Reservations");
+            //Objects = new ObservableCollection<RealEstateObject>(tb.GetObjects());
+        }
         private void DeleteSelectedObject()
         {
-            if (Contracts != null)
+            if (Reservations != null)
             {
-                cm.DeleteObject(SelectedContract);
-                Contracts.Remove(SelectedContract);
-                RefreshObjects();
+                if (!cm.FindRes(SelectedReservation.Id))
+                {
+                    rm.DeleteRes(SelectedReservation);
+                    Reservations.Remove(SelectedReservation);
+                    RefreshRes();
+                }
+                else
+                    MessageBox.Show("Невозможно удалить бронь, по которой заключен договор!", "Ошибка!");
+                //cm.DeleteObject(SelectedContract);
+                //Contracts.Remove(SelectedContract);
+                //RefreshObjects();
             }
         }
 

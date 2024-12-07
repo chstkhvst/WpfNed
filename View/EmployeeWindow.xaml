@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:local="clr-namespace:WpfNed.View"
         xmlns:vm="clr-namespace:WpfNed.ViewModel"
         mc:Ignorable="d"
@@ -226,8 +227,13 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Бронь" Style="{StaticResource CustomTabItemStyle}" >
-                    <DataGrid ItemsSource="{Binding Reservations}" 
+                <TabItem Header="Бронь" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding ContractVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid ItemsSource="{Binding Reservations}" SelectedItem="{Binding SelectedReservation}"
                               AutoGenerateColumns="False"
                               Style="{StaticResource CustomDataGridStyle}"
                               ColumnHeaderStyle="{StaticResource DataGridColumnHeaderStyle}"
@@ -248,7 +254,19 @@
                             <DataGridTextColumn Header="Дата выезда" Binding="{Binding EndDate, StringFormat={}{0:dd.MM.yyyy}}"/>
                             <DataGridTextColumn Header="Статус брони" Binding="{Binding ResStatus.StatusType}"/>
                         </DataGrid.Columns>
-                    </DataGrid>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                            <ComboBox ItemsSource="{Binding Users}" 
+                                      DisplayMemberPath="FullName" 
+                                      SelectedValue="{Binding SelectedUserId, Mode=TwoWay}" 
+                                      SelectedValuePath="Id" 
+                                      Width="200"
+                                      Margin="5"/>
+
+                            <Button Content="Составить договор" Style="{StaticResource StyledButton}" Command="{Binding AddObjCommand}" Width ="120" Margin="10"/>
+                            <Button Style="{StaticResource StyledButton}" Content="Удалить" Command="{Binding DeleteObjCommand}" Margin="5"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Договоры" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding ContractVM}">
                     <Grid>
@@ -271,7 +289,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
+                        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
                             <ComboBox ItemsSource="{Binding Reservations}" 
                                       DisplayMemberPath="Id" 
                                       SelectedValue="{Binding SelectedReservationId, Mode=TwoWay}" 
@@ -287,7 +305,7 @@
 
                             <Button Content="Составить договор" Style="{StaticResource StyledButton}" Command="{Binding AddObjCommand}" Width ="120" Margin="10"/>
                             <Button Style="{StaticResource StyledButton}" Content="Удалить" Command="{Binding DeleteObjCommand}" Margin="5"/>
-                        </StackPanel>
+                        </StackPanel>-->
                     </Grid>
                 </TabItem>
                 <TabItem Header="Пользователи" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding UserVM}">
@@ -332,7 +350,7 @@
                             </Grid.RowDefinitions>
 
                             <!-- DataGrid 1 -->
-                            <StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
+                            <StackPanel Grid.Column="1" Grid.Row="0" Margin="10">
                                 <TextBlock Text="Тип объекта" FontWeight="Bold" Margin="0,0,0,5" Foreground="DarkSeaGreen" TextAlignment="Center"/>
                                 <DataGrid Height="125" 
                                           ItemsSource="{Binding ObjectTypes}"
@@ -348,7 +366,7 @@
                             </StackPanel>
 
                             <!-- DataGrid 2 -->
-                            <StackPanel Grid.Column="3" Grid.Row="1" Margin="5">
+                            <StackPanel Grid.Column="3" Grid.Row="1" Margin="10">
                                 <TextBlock Text="Вид сделки" FontWeight="Bold" Margin="0,0,0,5" Foreground="DarkSeaGreen" TextAlignment="Center"/>
                                 <DataGrid Height="125" 
                                           ItemsSource="{Binding DealTypes}"
@@ -364,7 +382,7 @@
                             </StackPanel>
 
                             <!-- DataGrid 3 -->
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5">
+                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
                                 <TextBlock Text="Статус заявки" FontWeight="Bold" Margin="0,0,0,5" Foreground="DarkSeaGreen" TextAlignment="Center"/>
                                 <DataGrid Height="125" 
                                           ItemsSource="{Binding ResStatuses}"
@@ -381,7 +399,7 @@
                             </StackPanel>
 
                             <!-- DataGrid 4 -->
-                            <StackPanel Grid.Column="3" Grid.Row="0" Margin="5">
+                            <StackPanel Grid.Column="3" Grid.Row="0" Margin="10">
                                 <TextBlock Text="Статус объекта" FontWeight="Bold" Margin="0,0,0,5" Foreground="DarkSeaGreen" TextAlignment="Center"/>
                                 <DataGrid Height="125" 
                                           ItemsSource="{Binding Statuses}"
@@ -398,6 +416,23 @@
                         </Grid>
                     </StackPanel>
                 </TabItem>
+                <TabItem Header="Отчет по прибыли" Style="{StaticResource CustomTabItemStyle}" DataContext="{Binding ProfitReportVM}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="0" Margin="10">
+                            <TextBlock Text="Год:" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox Text="{Binding SelectedYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                     VerticalAlignment="Center" Width="50" Height="20" />
+                            <Button Content="Построить отчет" Style="{StaticResource StyledButton}" 
+                                    Command="{Binding GenerateReportCommand}" Margin="5"/>
+                        </StackPanel>
+                        <oxy:PlotView Grid.Row="1" Model="{Binding ProfitPlotModel}" />
+                    </Grid>
+                </TabItem>
+
             </TabControl>
 
         </Grid>
