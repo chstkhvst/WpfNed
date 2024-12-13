@@ -144,14 +144,15 @@ namespace WpfNed.ViewModel
         }
         private void ApplyFilters()
         {
-            FilteredObjects = Objects.Where(obj =>
-                (SelectedObjectType == null || obj.ObjectType.Id == SelectedObjectType.Id) &&
-                (SelectedRoomCount == 0 || obj.Rooms == SelectedRoomCount) &&
-                (SelectedDealType == null || obj.DealType.Id == SelectedDealType.Id) &&
-                (MinPrice == null || obj.Price >= MinPrice) &&
-                (MaxPrice == null || obj.Price <= MaxPrice) &&
-                (obj.StatusId == 1)
-            ).ToList();
+            //FilteredObjects = Objects.Where(obj =>
+            //    (SelectedObjectType == null || obj.ObjectType.Id == SelectedObjectType.Id) &&
+            //    (SelectedRoomCount == 0 || obj.Rooms == SelectedRoomCount) &&
+            //    (SelectedDealType == null || obj.DealType.Id == SelectedDealType.Id) &&
+            //    (MinPrice == null || obj.Price >= MinPrice) &&
+            //    (MaxPrice == null || obj.Price <= MaxPrice) &&
+            //    (obj.StatusId == 1)
+            //).ToList();
+            FilteredObjects = tb.ApplyFiltres(SelectedObjectType?.Id, SelectedRoomCount, SelectedDealType?.Id, MinPrice, MaxPrice);
         }
         public void LoadData()
         {
@@ -173,7 +174,7 @@ namespace WpfNed.ViewModel
             {
                 if (_OpenAdCommand == null)
                 {
-                    _OpenAdCommand = new RelayCommand<REObjectDTO>(OpenObjectDetails);
+                    _OpenAdCommand = new RelayCommand<REObjectDTO>(OpenBookDetails);
                 }
                 return _OpenAdCommand;
             }
@@ -189,7 +190,7 @@ namespace WpfNed.ViewModel
             }
         }
         private REObjectDTO selObj;
-        private void OpenObjectDetails(REObjectDTO selectedObject)
+        private void OpenBookDetails(REObjectDTO selectedObject)
         {
             if (selectedObject == null)
                 return;
@@ -218,6 +219,7 @@ namespace WpfNed.ViewModel
                 rm.AddRes(SelectedReservation);
                 w.Close();
                 MessageBox.Show("Ваша заявка принята!", "Успешно!");
+                FilteredObjects = tb.ApplyFiltres(SelectedObjectType?.Id, SelectedRoomCount, SelectedDealType?.Id, MinPrice, MaxPrice);
             }
             
         }

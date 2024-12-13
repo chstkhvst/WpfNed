@@ -149,6 +149,31 @@ namespace WpfNed.Model
             db.Contract.Load();
             return db.Contract.ToList();
         }
+        public List<REObjectDTO> ApplyFiltres(int? selectedObjectTypeId, int selectedRoomCount, int? selectedDealTypeId, decimal? minPrice, decimal? maxPrice)
+        {
+            var filteredObjects = db.Object
+                .Where(o =>
+                    (selectedObjectTypeId == null || o.TypeId == selectedObjectTypeId) &&
+                    (selectedRoomCount == 0 || o.Rooms == selectedRoomCount) &&
+                    (selectedDealTypeId == null || o.DealTypeId == selectedDealTypeId) &&
+                    (minPrice == null || o.Price >= minPrice) &&
+                    (maxPrice == null || o.Price <= maxPrice) &&
+                    o.StatusId == 1
+                )
+                .ToList();
+            var result = filteredObjects
+                .Select(o =>
+                {
+                    var dto = new REObjectDTO(o);
+                    dto.Images = GetObjectImages(o.Id); 
+                    return dto;
+                })
+                .ToList();
+
+            return result;
+        }
+
+
         public User ValidateUser(string login, string password)
         {
             return db.User.FirstOrDefault(u => u.Login == login && u.Password == password);

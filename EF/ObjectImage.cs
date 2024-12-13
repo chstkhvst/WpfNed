@@ -11,16 +11,18 @@ namespace WpfNed.EF
     {
         [Key]
         [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Key]
-        [Column(Order = 1, TypeName = "image")]
+        //[Key]
+        [Column(/*Order = 1, */TypeName = "image")]
         public byte[] ObjImage { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[Key]
+        //[Column(Order = 2)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [ForeignKey("Object")]
         public int ObjectId { get; set; }
 
         public virtual REObject Object { get; set; }

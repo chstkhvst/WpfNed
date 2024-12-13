@@ -14,6 +14,9 @@ using System.Collections.ObjectModel;
 using WpfNed.DTO;
 using System.Windows;
 using System.Text.RegularExpressions;
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
+using System.IO;
 
 namespace WpfNed.ViewModel
 {
@@ -30,29 +33,19 @@ namespace WpfNed.ViewModel
         public ICommand UpdateObjCommand { get; }
         public ICommand AddObjInDBCommand { get; }
         public ICommand UpdObjInDBCommand { get; }
+        public ICommand SelectImageCommand { get; }
 
-        //// Свойства для привязки данных
-        //public int Rooms { get; set; }
-        //public int Floors { get; set; }
-        //public int Square { get; set; }
-        //public int TypeId { get; set; }
-        //public int DealTypeId { get; set; }
-        //public string Street { get; set; }
-        //public int Building { get; set; }
-        //public int? Number { get; set; }
-        //public int Price { get; set; }
-        //public int OwnerId { get; set; }
-        //public int StatusId { get; set; }
         public ObjectTableVM()
         {
             tbObj = new REObjModel();
-            AddObjInDBCommand = new RelayCommand(AddObject);
-            UpdObjInDBCommand = new RelayCommand(UpdateObject);
+            AddObjInDBCommand = new RelayCommand<Window>(AddObject);
+            UpdObjInDBCommand = new RelayCommand<Window>(UpdateObject);
             _windowService = new WindowService();
             DeleteObjCommand = new RelayCommand(DeleteSelectedObject);
             AddObjCommand = new RelayCommand(OpenAddObj);
             EditObjCommand = new RelayCommand(OpenEditObj);
             RefreshObjCommand = new RelayCommand(RefreshObjects);
+            SelectImageCommand = new RelayCommand(SelectImage);
             //EditObjCommand = new RelayCommand(UpdateObj);
         }
         private List<ObjectType> _objectTypes;
@@ -110,6 +103,17 @@ namespace WpfNed.ViewModel
                     _dealTypes = value;
                     OnPropertyChanged(nameof(DealTypes));
                 }
+            }
+        }
+
+        private BitmapImage _selectedImage;
+        public BitmapImage SelectedImage
+        {
+            get => _selectedImage;
+            set
+            {
+                _selectedImage = value;
+                OnPropertyChanged(nameof(SelectedImage));
             }
         }
 
@@ -177,7 +181,35 @@ namespace WpfNed.ViewModel
             }
         }
 
-        public void AddObject()
+        private ObjectImage _img = new ObjectImage(); 
+        public ObjectImage Img
+        {
+            get => _img;
+            set
+            {
+                _img = value;
+                OnPropertyChanged(nameof(Img));
+            }
+        }
+
+        private void SelectImage()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var bitmap = new BitmapImage(new Uri(openFileDialog.FileName));
+                SelectedImage = bitmap;
+
+                // Сохранение изображения в формате byte[]
+                var imageBytes = File.ReadAllBytes(openFileDialog.FileName);
+                Img.ObjImage = imageBytes; 
+            }
+        }
+
+
+        public void AddObject(Window w)
         {
             if (SelectedObject.Square > 500 || SelectedObject.Square == 0)
                 MessageBox.Show("Пожалуйста, введите реальное значение площади.", "Ошибка!");
@@ -199,13 +231,16 @@ namespace WpfNed.ViewModel
                 MessageBox.Show("Пожалуйста, выберите тип объекта.", "Ошибка!");
             else if (SelectedObject.OwnerId == 0)
                 MessageBox.Show("Пожалуйста, выберите владельца.", "Ошибка!");
+            else if (Img == null)
+                MessageBox.Show("Пожалуйста, добавьте изображение.", "Ошибка!");
             else
             {
-                tbObj.AddObj(SelectedObject);
+                tbObj.AddObj(SelectedObject, Img);
                 RefreshObjects();
+                w.Close();
             }
         }
-        public void UpdateObject()
+        public void UpdateObject(Window w)
         {
             if (SelectedObject.Square > 500 || SelectedObject.Square == 0)
                 MessageBox.Show("Пожалуйста, введите реальное значение площади.", "Ошибка!");
@@ -231,15 +266,19 @@ namespace WpfNed.ViewModel
             {
                 tbObj.UpdObj(SelectedObject);
                 RefreshObjects();
+                w.Close();
             }
         }
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        //protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }

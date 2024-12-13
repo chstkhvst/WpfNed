@@ -40,8 +40,8 @@ namespace WpfNed.ViewModel
         public UserVM()
         {
             _windowService = new WindowService();
-            AddObjInDBCommand = new RelayCommand(AddUser);
-            UpdObjInDBCommand = new RelayCommand(UpdateUser);
+            AddObjInDBCommand = new RelayCommand<Window>(AddUser);
+            UpdObjInDBCommand = new RelayCommand<Window>(UpdateUser);
             AddObjCommand = new RelayCommand(OpenAddUser);
             EditObjCommand = new RelayCommand(OpenUpdUser);
             DeleteObjCommand = new RelayCommand(DeleteSelectedObject);
@@ -129,7 +129,7 @@ namespace WpfNed.ViewModel
                 RefreshObjects();
             }
         }
-        private void UpdateUser()
+        private void UpdateUser(Window w)
         {
             if (string.IsNullOrEmpty(SelectedUser.FullName) || SelectedUser.FullName.Length > 35 || !Regex.IsMatch(SelectedUser.FullName, @"^[а-яА-Яa-zA-Z\s]+$"))
                 MessageBox.Show("Пожалуйста, введите ФИО корректно.", "Ошибка!");
@@ -147,9 +147,10 @@ namespace WpfNed.ViewModel
             {
                 ut.UpdateUser(SelectedUser);
                 RefreshObjects();
+                w.Close();
             }
         }
-        public void AddUser()
+        public void AddUser(Window w)
         {
             //var newObject = new UserDTO
             //{
@@ -179,6 +180,7 @@ namespace WpfNed.ViewModel
                 //Users = null;
                 //Users.Add(newObject);
                 RefreshObjects();
+                w.Close();
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

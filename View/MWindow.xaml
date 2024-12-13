@@ -182,6 +182,8 @@
                                         <TextBlock Text="{Binding ObjectType.TypeName, StringFormat='Тип объекта: {0}'}"/>
                                         <TextBlock Text="{Binding DealType.DealName}"/>
                                         <TextBlock Text="{Binding Price, StringFormat='Цена: {0:C}'}"/>
+                                        <TextBlock Text="{Binding Rooms, StringFormat='Количество комнат: {0}'}"/>
+                                        <TextBlock Text="{Binding Square, StringFormat='Площадь, м2: {0}'}"/>
                                         <Button Style="{StaticResource StyledButton}" 
                                                 Command="{Binding DataContext.OpenAdCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
                                                 CommandParameter="{Binding}">

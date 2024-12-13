@@ -13,7 +13,7 @@ namespace WpfNed.ViewModel
     {
         private readonly TableModel tb;
         private readonly REObjModel tbObj;
-        public ICommand AddObjInDBCommand { get; private set; }
+        //public ICommand AddObjInDBCommand { get; private set; }
 
         // Свойства для привязки данных
         public int Rooms { get; set; }
@@ -87,7 +87,7 @@ namespace WpfNed.ViewModel
         {
             tb = new TableModel();
             tbObj = new REObjModel();
-            AddObjInDBCommand = new RelayCommand(AddObject);
+            //AddObjInDBCommand = new RelayCommand(AddObject);
         }
         public static event Action ObjectsUpdated;
         public void AddObject()
@@ -106,7 +106,7 @@ namespace WpfNed.ViewModel
                 OwnerId = (int)this.OwnerId,
                 StatusId = 1
             };
-            tbObj.AddObj( newObject );
+            //tbObj.AddObj( newObject );
             ObjectsUpdated.Invoke();
             OnPropertyChanged();
         }

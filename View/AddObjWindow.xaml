@@ -127,8 +127,11 @@
                   SelectedValuePath="Id" 
                   Width="100" 
                   Margin="0,0,0,10"/>
+           
+            <Button Content="Выбрать изображение" Command="{Binding SelectImageCommand}" Margin="0,10"/>
+            <Image Source="{Binding Img.ObjImage}" Width="100" Height="100" Margin="0,10"/>
 
-            <Button Content="Добавить объект" Command="{Binding AddObjInDBCommand}" Margin="0,10"/>
+            <Button Content="Добавить объект" Command="{Binding AddObjInDBCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Margin="0,10"/>
             <Button Content="Вернуться к таблицам" Click="btnClose_Click" Margin="0,10"/>
         </ListBox>
     </Grid>

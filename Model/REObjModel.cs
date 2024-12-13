@@ -14,7 +14,7 @@ namespace WpfNed.Model
     public class REObjModel
     {
         Model1 db = new Model1();
-        public void AddObj(REObjectDTO o)
+        public void AddObj(REObjectDTO o, ObjectImage i)
         {
             var newObject = new REObject
             {
@@ -31,6 +31,9 @@ namespace WpfNed.Model
                 StatusId = 1
             };
             db.Object.Add(newObject);
+            db.SaveChanges();
+            var newImg = new ObjectImage { ObjectId = newObject.Id, ObjImage = i.ObjImage };   
+            db.ObjectImage.Add(newImg);
             db.SaveChanges();
         }
         public void DeleteObject(REObjectDTO obj)
